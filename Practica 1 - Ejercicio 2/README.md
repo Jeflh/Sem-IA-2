@@ -1,6 +1,4 @@
-# Ejercicio 1
-
-Entrenamiento y prueba de un perceptrón simple para evaluar las compuertas lógicas XOR y OR.
+# Ejercicio 2
 
 ![image](https://github.com/Jeflh/Sem-IA-2/assets/88942550/46650b73-4905-42de-8861-4ca54b05d100)
 
