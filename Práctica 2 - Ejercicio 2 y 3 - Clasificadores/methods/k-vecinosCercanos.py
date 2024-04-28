@@ -28,4 +28,4 @@ y_pred = model.predict(X_test)
 
 # Calcular la precisión del modelo
 accuracy = accuracy_score(y_test, y_pred)
-print("Precisión del modelo KNN:", accuracy)
+print("Precisión del modelo KNN: {:.2f}%".format(f1 * 100))

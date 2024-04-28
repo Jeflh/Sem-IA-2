@@ -27,4 +27,4 @@ y_pred = model.predict(X_test)
 
 # Calcular la precisión del modelo
 accuracy = accuracy_score(y_test, y_pred)
-print("Precisión del modelo de regresión logística:", accuracy)
+print("Precisión del modelo de regresión logística: {:.2f}%".format(f1 * 100))
