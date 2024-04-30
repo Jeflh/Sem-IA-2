@@ -33,18 +33,27 @@ def train_and_evaluate_model(model, X_train, X_test, y_train, y_test):
     precision = precision_score(y_test, y_pred)
     recall = recall_score(y_test, y_pred)
     f1 = f1_score(y_test, y_pred)
-    return accuracy, precision, recall, f1
+    
+    # Calcular True Negatives (TN)
+    tn = ((y_test == 0) & (y_pred == 0)).sum()
+    # Calcular False Positives (FP)
+    fp = ((y_test == 0) & (y_pred == 1)).sum()
+    # Calcular Specificity
+    specificity = tn / (tn + fp)
+    
+    return accuracy, precision, recall, f1, specificity
 
 # Función para imprimir los resultados
-def print_results(model_name, accuracy, precision, recall, f1):
-    print(model_name + ":")
+def print_results(model_name, accuracy, precision, recall, f1, specificity):
+    print("[" + model_name +"]"+ ":")
     print("Accuracy: {:.2f}%".format(accuracy * 100))
     print("Precision: {:.2f}%".format(precision * 100))
     print("Recall: {:.2f}%".format(recall * 100))
     print("F1 Score: {:.2f}%".format(f1 * 100))
+    print("Specificity: {:.2f}%".format(specificity * 100))
     print()
 
-# Cargar y preparar el dataset Swedish Auto Insurance
+# Cargar y preparar el dataset Swedish Auto Insurance -------
 auto_insurance_file = "datasets/AutoInsurSweden.csv"
 auto_insurance_data = load_data_from_csv(auto_insurance_file)
 X_auto_insurance = auto_insurance_data.iloc[:, :-1]
@@ -60,20 +69,20 @@ X_train_auto, X_test_auto, y_train_auto, y_test_auto = train_test_split(X_auto_i
 X_train_auto_scaled, X_test_auto_scaled = preprocess_data(X_train_auto, X_test_auto)
 
 # Entrenar y evaluar modelos para el dataset Swedish Auto Insurance
-print("Resultados para Swedish Auto Insurance Dataset:")
+print(" === Resultados para Swedish Auto Insurance Dataset: ===\n")
 models = [
-    ("Regresión Logística", LogisticRegression()),
+    ("Regresion Logistica", LogisticRegression()),
     ("K-Vecinos Cercanos", KNeighborsClassifier()),
-    ("Máquinas de Vectores de Soporte (SVM)", SVC(kernel='linear')),
+    ("Maquinas de Vectores de Soporte (SVM)", SVC(kernel='linear')),
     ("Naive Bayes", GaussianNB()),
     ("Red Neuronal", MLPClassifier(hidden_layer_sizes=(40, 50, 40), max_iter=1000))
 ]
 
 for model_name, model in models:
-    accuracy, precision, recall, f1 = train_and_evaluate_model(model, X_train_auto_scaled, X_test_auto_scaled, y_train_auto, y_test_auto)
-    print_results(model_name, accuracy, precision, recall, f1)
+    accuracy, precision, recall, f1, specificity = train_and_evaluate_model(model, X_train_auto_scaled, X_test_auto_scaled, y_train_auto, y_test_auto)
+    print_results(model_name, accuracy, precision, recall, f1, specificity)
 
-# Cargar y preparar el dataset Wine Quality
+# Cargar y preparar el dataset Wine Quality ----------
 wine_quality_file = "datasets/winequality-white.csv"
 wine_quality_data = load_data_from_csv(wine_quality_file)
 X_wine_quality = wine_quality_data.iloc[:, :-1]
@@ -89,12 +98,12 @@ X_train_wine, X_test_wine, y_train_wine, y_test_wine = train_test_split(X_wine_q
 X_train_wine_scaled, X_test_wine_scaled = preprocess_data(X_train_wine, X_test_wine)
 
 # Entrenar y evaluar modelos para el dataset Wine Quality
-print("\nResultados para Wine Quality Dataset:")
+print("\n=== Resultados para Wine Quality Dataset: ===\n")
 for model_name, model in models:
-    accuracy, precision, recall, f1 = train_and_evaluate_model(model, X_train_wine_scaled, X_test_wine_scaled, y_train_wine, y_test_wine)
-    print_results(model_name, accuracy, precision, recall, f1)
+    accuracy, precision, recall, f1, specificity = train_and_evaluate_model(model, X_train_wine_scaled, X_test_wine_scaled, y_train_wine, y_test_wine)
+    print_results(model_name, accuracy, precision, recall, f1, specificity)
 
-# Cargar y preparar el dataset Pima Indians Diabetes
+# Cargar y preparar el dataset Pima Indians Diabetes ----------
 pima_diabetes_file = "datasets/pima-indians-diabetes.csv"
 pima_diabetes_data = load_data_from_csv(pima_diabetes_file)
 X_pima = pima_diabetes_data.iloc[:, :-1]
@@ -107,7 +116,7 @@ X_train_pima, X_test_pima, y_train_pima, y_test_pima = train_test_split(X_pima, 
 X_train_pima_scaled, X_test_pima_scaled = preprocess_data(X_train_pima, X_test_pima)
 
 # Entrenar y evaluar modelos para el dataset Pima Indians Diabetes
-print("\nResultados para Pima Indians Diabetes Dataset:")
+print("\n=== Resultados para Pima Indians Diabetes Dataset: ===\n")
 for model_name, model in models:
-    accuracy, precision, recall, f1 = train_and_evaluate_model(model, X_train_pima_scaled, X_test_pima_scaled, y_train_pima, y_test_pima)
-    print_results(model_name, accuracy, precision, recall, f1)
+    accuracy, precision, recall, f1, specificity = train_and_evaluate_model(model, X_train_pima_scaled, X_test_pima_scaled, y_train_pima, y_test_pima)
+    print_results(model_name, accuracy, precision, recall, f1, specificity)
