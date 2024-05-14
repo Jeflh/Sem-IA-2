@@ -38,12 +38,6 @@ def train_and_evaluate_model(model, X_train, X_test, y_train, y_test):
     print("F1 Score: {:.2f}%".format(f1 * 100))
     print()
 
-# Cargar y preparar el dataset zoo2
-zoo2_file = "datasets/zoo2.csv"
-X_zoo2, y_zoo2 = load_zoo_dataset(zoo2_file)
-X_train_zoo2, X_test_zoo2, y_train_zoo2, y_test_zoo2 = train_test_split(X_zoo2, y_zoo2, test_size=0.2, random_state=42)
-X_train_zoo2_scaled, X_test_zoo2_scaled = preprocess_data(X_train_zoo2, X_test_zoo2)
-
 # Inicializar modelos
 models = [
     ("Regresion Logistica", LogisticRegression()),
@@ -53,8 +47,26 @@ models = [
     ("Red Neuronal", MLPClassifier(hidden_layer_sizes=(40, 50, 40), max_iter=1000))
 ]
 
+# Cargar y preparar el dataset zoo
+zoo_file = "datasets/zoo.csv"
+X_zoo, y_zoo = load_zoo_dataset(zoo_file)
+X_train_zoo, X_test_zoo, y_train_zoo, y_test_zoo = train_test_split(X_zoo, y_zoo, test_size=0.2, random_state=42)
+X_train_zoo_scaled, X_test_zoo_scaled = preprocess_data(X_train_zoo, X_test_zoo)
+
+# Entrenar y evaluar modelos para el dataset zoo
+print("=== Resultados para Zoo Dataset: ===\n")
+for model_name, model in models:
+    print("Modelo:", model_name)
+    train_and_evaluate_model(model, X_train_zoo_scaled, X_test_zoo_scaled, y_train_zoo, y_test_zoo)
+
+# Cargar y preparar el dataset zoo2
+zoo2_file = "datasets/zoo2.csv"
+X_zoo2, y_zoo2 = load_zoo_dataset(zoo2_file)
+X_train_zoo2, X_test_zoo2, y_train_zoo2, y_test_zoo2 = train_test_split(X_zoo2, y_zoo2, test_size=0.2, random_state=42)
+X_train_zoo2_scaled, X_test_zoo2_scaled = preprocess_data(X_train_zoo2, X_test_zoo2)
+
 # Entrenar y evaluar modelos para el dataset zoo2
-print("=== Resultados para Zoo2 Dataset: ===\n")
+print("\n=== Resultados para Zoo2 Dataset: ===\n")
 for model_name, model in models:
     print("Modelo:", model_name)
     train_and_evaluate_model(model, X_train_zoo2_scaled, X_test_zoo2_scaled, y_train_zoo2, y_test_zoo2)
