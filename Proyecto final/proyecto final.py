@@ -82,3 +82,19 @@ print("\n=== Resultados para Zoo3 Dataset: ===\n")
 for model_name, model in models:
     print("Modelo:", model_name)
     train_and_evaluate_model(model, X_train_zoo3_scaled, X_test_zoo3_scaled, y_train_zoo3, y_test_zoo3)
+
+# Concatenar los datasets verticalmente
+X_combined = pd.concat([X_zoo, X_zoo2, X_zoo3], axis=0)
+y_combined = pd.concat([y_zoo, y_zoo2, y_zoo3], axis=0)
+
+# Dividir los datos combinados en conjuntos de entrenamiento y prueba
+X_train_combined, X_test_combined, y_train_combined, y_test_combined = train_test_split(X_combined, y_combined, test_size=0.2, random_state=42)
+
+# Preprocesar los datos combinados
+X_train_combined_scaled, X_test_combined_scaled = preprocess_data(X_train_combined, X_test_combined)
+
+# Entrenar y evaluar modelos para el dataset combinado
+print("=== Resultados para Dataset Combinado ===\n")
+for model_name, model in models:
+    print("Modelo:", model_name)
+    train_and_evaluate_model(model, X_train_combined_scaled, X_test_combined_scaled, y_train_combined, y_test_combined)
