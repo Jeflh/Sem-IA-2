@@ -38,7 +38,7 @@ def train_and_evaluate_model(model, X_train, X_test, y_train, y_test):
     print("F1 Score: {:.2f}%".format(f1 * 100))
     print()
 
-# Inicializar modelos
+# Inicializar modelos de clasificación
 models = [
     ("Regresion Logistica", LogisticRegression()),
     ("K-Vecinos Cercanos", KNeighborsClassifier()),
